@@ -1,0 +1,16 @@
+The purpose of this project is to create 
+a banking app with some functionalities
+that will be improved.
+
+
+I made that project using a You tube video
+Start at 01h40 after skiping the basis that
+i already master
+
+------------Improvements------------
+
+- Make a strong validation of the username
+
+
+Stop
+27/11/2024
