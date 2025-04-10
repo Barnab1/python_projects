@@ -1,0 +1,75 @@
+Steps description (made by Gemini)
+
+
+Phase 1: Core Functionality (Command-Line Interface)
+
+Planning and Structure:
+
+# Decide on the basic actions your to-do list should support:
+    -Adding a task.
+    -Viewing all tasks.
+    -Marking a task as completed.
+    -(Optional) Deleting a task.
+# Think about how you'll store the tasks:
+    A list of dictionaries or a list of strings could work. Each task might have a description and a status (e.g., "completed" or "pending").
+    
+    
+# Adding Tasks:
+
+    - Create a function that prompts the user for a task description.
+    - Store the task (and its initial "pending" status) in your data structure.
+    
+# Viewing Tasks:
+
+    - Create a function that iterates through your stored tasks.
+    - Display each task's description and its status.
+    - Consider formatting the output for readability (e.g., numbering the tasks).
+# Marking Tasks as Completed:
+
+    - Create a function that asks the user for the task number (or description) to mark as completed.
+    - Update the status of the corresponding task in your data structure.
+
+
+# (Optional) Deleting Tasks:
+
+    - Create a function that ask the user for the task number(or description) to delete.
+    - Remove the corresponding task from your data structure.
+
+# Main Program Loop:
+
+    - Create a loop that presents the user with a menu of options (add, view, complete, delete, exit).
+    - Based on the user's input, call the appropriate function.
+
+Phase 2: File I/O (Saving and Loading)
+
+# Saving Tasks to a File:
+
+    - Choose a file format (e.g., CSV, JSON, or a simple text file).
+    - When the user exits the program (or periodically), write the tasks from your data structure to the file.
+    - 
+    
+# Loading Tasks from a File:
+
+    - When the program starts, check if the file exists.
+    - If it exists, read the tasks from the file and populate your data structure.
+
+Phase 3: (Optional) Graphical User Interface (GUI) - Using Tkinter
+
+# GUI Layout:
+
+    - Plan the layout of your GUI.
+    - Consider using labels, entry fields, buttons, and listboxes.
+# GUI Functions:
+
+    - Create functions that correspond to the GUI actions (add, view, complete, delete).
+    - These functions will interact with the GUI elements and your data structure.
+# GUI Event Handling:
+
+    - Connect the GUI buttons to the appropriate functions.
+    - Handle events like button clicks and window closing.
+# Key Considerations:
+
+    - Error Handling: Handle invalid user input (e.g., non-numeric input when expecting a number).
+    - User Experience: Make the application user-friendly with clear prompts and informative messages.
+    - Code Readability: Use meaningful variable names and comments to make your code easy to understand.
+    -Remember to break down each step into smaller, manageable tasks.
