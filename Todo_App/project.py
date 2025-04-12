@@ -1,9 +1,11 @@
 #Simple To-Do List Application:
 
-#Goal: Create a command-line or basic GUI (using Tkinter) application to manage tasks.
+#Goal: Create a command-line and after a basic GUI (using Tkinter) application to manage tasks.
 #Skills: Variables, lists, loops, conditional statements, basic file I/O (to save/load tasks).
 #Progression: Add features like task prioritization, due dates, and task completion tracking.
 
+
+# PROJECT DEPTH EXPLANATION 
 """
 Functionality and user interaction
 
@@ -17,36 +19,113 @@ Functionality and user interaction
 
     - Tasks should be ordered by description priority ?
 
-        -Priority hare are ('Must do':m,'should do':s,'could do':c, 'Will not do': w)
+        -Priorities are ('Must do':m,'should do':s,'could do':c, 'Will not do': w)
 
-    - How will the user identify which task to mark as complete or delete? (By number ?, description ?)
+    - How will the user identify which task to mark as complete or delete? (by description)
 
-    - What feedback should the user receive after each action? (Confirmation messages when everythin is fine, error message
-        when there is a mistake)
+    - What feedback should the user receive after each action? (Confirmation messages when everything is 
+    fine, error message when there is a mistake)
 
 Data structures and Storage
 
     - How will the tasks be stored in memory while the application is running? (List of dictionaries)
+
     - information to store for each task: (Description, status, due date, priority)
+
     - If using a list of dictionaries, what keys will the dictionaries have? (e.g., 'description', 'status', 'due_date', 'priority').
+
     - How will the application handle an empty task list ('tell user that we want to delete it and proceed if they confirm/ask user to update')
+
     - I don't need to store the date or time the task was added, just the due_date
 3. Error Handling and Edge Cases:
 
     - What happens if the user enters invalid input? : Throw a TypeError.
-    - What happens if the user tries to mark a task as complete that doesn't exist: Throw a message saying that the task doesn't exist
-    - What happens if the user tries to delete a task that doesn't exist "Throw a message saying the task doesn't exist)
-    - What happens if the user inputs nothing for the task description: The task should keep coming again and again
+
+    - What happens if the user tries to mark a task as complete that doesn't exist: Throw a message 
+        saying that the task doesn't exist
+    - What happens if the user tries to delete a task that doesn't exist "Throw a message saying:
+        the task doesn't exist)
+    - What happens if the user inputs nothing for the task description: The task should keep coming
+        again and again
 
 4. Code Organization and Modularity:
 
     - How will the code be organized into functions : (One function per action).
 
-
-    - What are the main modules or components of the application?
-    - How will data be passed between functions: passing as arguments:
+    - How will data be passed between functions: passed as arguments:
         Eg: def add_task(tasks, new_task): # tasks list passed as an argument
             def view_tasks(tasks): # tasks list passed as an argument
 
-    - How can the code be made reusable and maintainable (use of small chunk of function with meaningfull name)
+    - How can the code be made reusable and maintainable (throgh the use of small chunk of function 
+        with meaningfull name)
+    
+    - main modules or components of the application:
+
+        - Input/Output Module: This would handle getting user input (e.g., task descriptions, menu choices)
+            and displaying output (e.g., the list of tasks, confirmation messages). In a 
+            command-line application, this module is basically the main loop, and all the print and input 
+            functions
+
+        - Data Storage/Manipulation Module: This would handle storing the tasks (the list of dictionaries we 
+            discussed earlier) and performing operations on them (adding, completing, deleting). 
+            These are your core functions that manipulate the list
+
+        - (Later, in Phase 2) File I/O Module: This would handle saving and loading the tasks to/from a file
+        
+        - (Later, in Phase 3) GUI Module: If we add a GUI, this would handle the GUI elements and their interactions
+
 """
+
+# PROJECT CODE
+
+#STEP 1: Initializing the Task List
+
+tasks = []
+
+# Step 2: Create the add_task() Function
+
+def add_task(tasks):
+    """
+    Responsible for adding task to tasks list
+    """
+    print('Hi Dear We are here in Todo App to help you managing well your time.')
+    print('')
+    print('Give the following descriptions for your task')
+
+    taskDescription = input('Task description: ')
+    taskDueDate     = input('Task due date: ')
+    taskPriority    = input('Task priority')
+    taskstatus ='pending'
+
+    task = {}
+
+    task.description = taskDescription
+    task['due date'] = taskDueDate
+    task.priority    = taskPriority
+    task.status = taskstatus
+
+    tasks.append(task)
+
+    return tasks
+
+
+
+# Step 3: Create the view_tasks() Function
+
+def view_tasks(tasks):
+    if not tasks:
+        print('No task found')
+        return
+    
+    print('Tasks: ')
+    for i, task in enumerate(tasks):
+        print(f'{i+ 1} - {task['description']}-{['task.status']}')
+   
+    #Consider adding a task number for easy identification.
+    #key consideration : pretty format throgh the use of strings functionality
+
+    
+view_tasks([{'description':'Go to church', 'status':'pending'},
+            {'description':'Go to school', 'status':'pending'},
+            {'description':'Go to job', 'status':'done'}
+])
