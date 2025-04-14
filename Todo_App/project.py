@@ -75,7 +75,7 @@ Data structures and Storage
         - (Later, in Phase 3) GUI Module: If we add a GUI, this would handle the GUI elements and their interactions
 
 """
-
+from tabulate import tabulate
 # PROJECT CODE
 
 #STEP 1: Initializing the Task List
@@ -94,15 +94,15 @@ def add_task(tasks):
 
     taskDescription = input('Task description: ')
     taskDueDate     = input('Task due date: ')
-    taskPriority    = input('Task priority')
+    taskPriority    = input('Task priority: ')
     taskstatus ='pending'
 
     task = {}
 
-    task.description = taskDescription
+    task['description'] = taskDescription
     task['due date'] = taskDueDate
-    task.priority    = taskPriority
-    task.status = taskstatus
+    task['priority']   = taskPriority
+    task['status'] = taskstatus
 
     tasks.append(task)
 
@@ -112,20 +112,55 @@ def add_task(tasks):
 
 # Step 3: Create the view_tasks() Function
 
+
+
 def view_tasks(tasks):
     if not tasks:
-        print('No task found')
+        print("No tasks found.")
         return
-    
-    print('Tasks: ')
+
+    headers = ["#", "Description", "Status", "Priority"]
+    table_data = []
+
     for i, task in enumerate(tasks):
-        print(f'{i+ 1} - {task['description']}-{['task.status']}')
-   
-    #Consider adding a task number for easy identification.
-    #key consideration : pretty format throgh the use of strings functionality
+        table_data.append([i + 1, task['description'], task['status'], task['priority']])
+    print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
     
-view_tasks([{'description':'Go to church', 'status':'pending'},
-            {'description':'Go to school', 'status':'pending'},
-            {'description':'Go to job', 'status':'done'}
-])
+tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'Must do'},
+            {'description':'Go to school', 'status':'pending', 'priority':'Must do'},
+            {'description':'Go to job', 'status':'done', 'priority':'Must do'}
+]
+
+print(tasks[0]['description'])
+
+
+def menuLoop():
+    """
+    Showing the main menu
+    """
+    keepGoing = True
+
+    while keepGoing:
+
+        print("Welcome to our Todo App")
+        print("")
+        print('Menu'.center(20, "-"))
+        print("1. Add task,")
+        print("2. View tasks")
+        print("3. Exit.")
+
+        userInput = int(input('Choose an option: '))
+
+    
+        if userInput == 1:
+            add_task(tasks)
+        elif userInput == 2:
+            view_tasks(tasks)
+        elif userInput ==3:
+            keepGoing = False
+        else:
+            print('Invalid choice')
+
+menuLoop()
+
