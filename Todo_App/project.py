@@ -37,6 +37,7 @@ Data structures and Storage
     - How will the application handle an empty task list ('tell user that we want to delete it and proceed if they confirm/ask user to update')
 
     - I don't need to store the date or time the task was added, just the due_date
+    
 3. Error Handling and Edge Cases:
 
     - What happens if the user enters invalid input? : Throw a TypeError.
@@ -163,4 +164,11 @@ def menuLoop():
             print('Invalid choice')
 
 menuLoop()
+"""
+
+Run this code: Try running this basic version of your application.
+Experiment: Add the complete task functionality.
+Test: Test your code thoroughly to make sure it works as expected.
+Expand: add the delete task functionality.
+"""
 
