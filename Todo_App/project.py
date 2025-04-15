@@ -9,7 +9,7 @@
 """
 Functionality and user interaction
 
-    - actions performed by user: add, view, complete as done
+    - actions performed by user: add, view, complete as done, delete
 
     - way user interact with application: Commmand line input
 
@@ -17,11 +17,11 @@ Functionality and user interaction
 
     - type of output:  formatted list
 
-    - Tasks should be ordered by description priority ?
+    - Tasks should be ordered by description priority
 
-        -Priorities are ('Must do':m,'should do':s,'could do':c, 'Will not do': w)
+        -Priorities are ('Must do':'M','should do':'S','could do':'C', 'Will not do':'W')
 
-    - How will the user identify which task to mark as complete or delete? (by description)
+    - How will the user identify which task to mark as complete or delete (by description)
 
     - What feedback should the user receive after each action? (Confirmation messages when everything is 
     fine, error message when there is a mistake)
@@ -107,6 +107,7 @@ def add_task(tasks):
 
     tasks.append(task)
 
+    print('Your Task was well added to your Todos')
     return tasks
 
 
@@ -128,12 +129,24 @@ def view_tasks(tasks):
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
     
-tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'Must do'},
-            {'description':'Go to school', 'status':'pending', 'priority':'Must do'},
-            {'description':'Go to job', 'status':'done', 'priority':'Must do'}
+tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'M'},
+         {'description':'Go to school', 'status':'pending', 'priority':'M'},
+         {'description':'Go to job', 'status':'done', 'priority':'M'}
 ]
 
-print(tasks[0]['description'])
+
+
+
+def completTask(task):
+
+    print('Hi Dear, here you can mark task as completed to remove them')
+
+    for task in tasks:
+        if task['status'] != 'completed':
+            print('Would you like to mark below task as completed. Answer by y(yes) or n(no)')
+            print(task['description'])
+            userInput = input('answer here')
+
 
 
 def menuLoop():
@@ -144,7 +157,7 @@ def menuLoop():
 
     while keepGoing:
 
-        print("Welcome to our Todo App")
+        print("Welcome to your Todo App")
         print("")
         print('Menu'.center(20, "-"))
         print("1. Add task,")
