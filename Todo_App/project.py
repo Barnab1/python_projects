@@ -131,21 +131,32 @@ def view_tasks(tasks):
     
 tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'M'},
          {'description':'Go to school', 'status':'pending', 'priority':'M'},
-         {'description':'Go to job', 'status':'done', 'priority':'M'}
+         {'description':'Go to job', 'status':'complete', 'priority':'M'}
 ]
 
 
 
 
-def completTask(task):
+def markTaskCompleted(tasks):
 
-    print('Hi Dear, here you can mark task as completed to remove them')
+    print('Hi Dear, here you can mark task as completed')
 
     for task in tasks:
         if task['status'] != 'completed':
             print('Would you like to mark below task as completed. Answer by y(yes) or n(no)')
             print(task['description'])
-            userInput = input('answer here')
+            userInput = input('answer here: ')
+            userInput = str(userInput).strip().lower()
+            if userInput == "y":
+                task['status'] = "complete"
+                print('Your task is marked as completed')
+            elif userInput == "n":
+                print('Ok we understant you don\'t want to mark that one as completed')
+        
+        print("Here are your task with their status")
+
+    view_tasks(tasks)
+    
 
 
 
@@ -162,21 +173,27 @@ def menuLoop():
         print('Menu'.center(20, "-"))
         print("1. Add task,")
         print("2. View tasks")
-        print("3. Exit.")
+        print("3. Mark task as completed")
+        print("4. Exit.")
 
-        userInput = int(input('Choose an option: '))
 
-    
+        try:
+            userInput = int(input('Choose an option: '))
+        except ValueError:
+            print('Please Give number only')
+            return
+            
         if userInput == 1:
-            add_task(tasks)
+                add_task(tasks)
         elif userInput == 2:
             view_tasks(tasks)
-        elif userInput ==3:
+        elif userInput == 3:
+            markTaskCompleted(tasks)
+        elif userInput == 4:
             keepGoing = False
         else:
-            print('Invalid choice')
+                print('Invalid choice')
 
-menuLoop()
 """
 
 Run this code: Try running this basic version of your application.
@@ -185,3 +202,8 @@ Test: Test your code thoroughly to make sure it works as expected.
 Expand: add the delete task functionality.
 """
 
+def deleteTask():
+    """
+    That function will be responsible for deleting a task inside Todos
+    """
+    print('Hi, that functionality helps to delete tasks')
