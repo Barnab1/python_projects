@@ -26,11 +26,11 @@ Planning and Structure:
     - Consider formatting the output for readability (e.g., numbering the tasks).
 # Marking Tasks as Completed:
 
-    - Create a function that asks the user for the task number (or description) to mark as completed.
+    - Create a function that list every task and ask user to say those he want to mark as completed
     - Update the status of the corresponding task in your data structure.
 
 
-# (Optional) Deleting Tasks:
+# Deleting Tasks:
 
     - Create a function that ask the user for the task number(or description) to delete.
     - Remove the corresponding task from your data structure.
@@ -39,6 +39,14 @@ Planning and Structure:
 
     - Create a loop that presents the user with a menu of options (add, view, complete, delete, exit).
     - Based on the user's input, call the appropriate function.
+
+"""
+Next issue to work on:
+1- delete Function 
+2- userInput cleaning to prevent (",",space)
+3- When applying MarkasCompleted function, need to tell user to start again
+    when not using the correct answers (y/n)
+"""
 
 Phase 2: File I/O (Saving and Loading)
 

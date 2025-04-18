@@ -144,7 +144,9 @@ def markTaskCompleted(tasks):
     for task in tasks:
         if task['status'] != 'completed':
             print('Would you like to mark below task as completed. Answer by y(yes) or n(no)')
+            print('')
             print(task['description'])
+            print('')
             userInput = input('answer here: ')
             userInput = str(userInput).strip().lower()
             if userInput == "y":
@@ -190,6 +192,7 @@ def menuLoop():
         elif userInput == 3:
             markTaskCompleted(tasks)
         elif userInput == 4:
+            print('GoodBye dear friend')
             keepGoing = False
         else:
                 print('Invalid choice')
@@ -207,3 +210,5 @@ def deleteTask():
     That function will be responsible for deleting a task inside Todos
     """
     print('Hi, that functionality helps to delete tasks')
+
+menuLoop()
