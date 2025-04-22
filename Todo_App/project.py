@@ -17,7 +17,7 @@ Functionality and user interaction
 
     - type of output:  formatted list
 
-    - Tasks should be ordered by description priority
+    - Tasks should be ordered by Due date
 
         -Priorities are ('Must do':'M','should do':'S','could do':'C', 'Will not do':'W')
 
@@ -40,12 +40,7 @@ Data structures and Storage
     
 3. Error Handling and Edge Cases:
 
-    - What happens if the user enters invalid input? : Throw a TypeError.
-
-    - What happens if the user tries to mark a task as complete that doesn't exist: Throw a message 
-        saying that the task doesn't exist
-    - What happens if the user tries to delete a task that doesn't exist "Throw a message saying:
-        the task doesn't exist)
+    - What happens if the user enters invalid input? : ask him to re-enter again.
     - What happens if the user inputs nothing for the task description: The task should keep coming
         again and again
 
@@ -54,10 +49,8 @@ Data structures and Storage
     - How will the code be organized into functions : (One function per action).
 
     - How will data be passed between functions: passed as arguments:
-        Eg: def add_task(tasks, new_task): # tasks list passed as an argument
-            def view_tasks(tasks): # tasks list passed as an argument
 
-    - How can the code be made reusable and maintainable (throgh the use of small chunk of function 
+    - How can the code be made reusable and maintainable (through the use of small chunk of function 
         with meaningfull name)
     
     - main modules or components of the application:
@@ -69,7 +62,7 @@ Data structures and Storage
 
         - Data Storage/Manipulation Module: This would handle storing the tasks (the list of dictionaries we 
             discussed earlier) and performing operations on them (adding, completing, deleting). 
-            These are your core functions that manipulate the list
+            These are core functions that manipulate the list
 
         - (Later, in Phase 2) File I/O Module: This would handle saving and loading the tasks to/from a file
         
@@ -77,6 +70,7 @@ Data structures and Storage
 
 """
 from tabulate import tabulate
+from datetime import datetime
 # PROJECT CODE
 
 #STEP 1: Initializing the Task List
@@ -104,6 +98,7 @@ def add_task(tasks):
     task['due date'] = taskDueDate
     task['priority']   = taskPriority
     task['status'] = taskstatus
+    task['key'] = datetime.now()
 
     tasks.append(task)
 
@@ -117,10 +112,13 @@ def add_task(tasks):
 
 
 def view_tasks(tasks):
+    """
+        That function is responsible for showing all user tasks
+    """
     if not tasks:
         print("No tasks found.")
         return
-
+    print('Tasks'.center(30,'-'))
     headers = ["#", "Description", "Status", "Priority"]
     table_data = []
 
@@ -129,9 +127,9 @@ def view_tasks(tasks):
     print(tabulate(table_data, headers=headers, tablefmt="grid"))
 
     
-tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'M'},
-         {'description':'Go to school', 'status':'pending', 'priority':'M'},
-         {'description':'Go to job', 'status':'complete', 'priority':'M'}
+tasks = [{'description':'Go to church ', 'status':'pending', 'priority':'M','key':'2025-04-22 17:15:07.331035'},
+         {'description':'Go to school', 'status':'pending', 'priority':'M','key':'2025-04-22 17:15:54.325101'},
+         {'description':'Go to job', 'status':'complete', 'priority':'M', 'key':'2025-04-22 17:19:27.595020'}
 ]
 
 
@@ -176,7 +174,8 @@ def menuLoop():
         print("1. Add task,")
         print("2. View tasks")
         print("3. Mark task as completed")
-        print("4. Exit.")
+        print("4. Delete Task.")
+        print("5. Exit")
 
 
         try:
@@ -192,23 +191,54 @@ def menuLoop():
         elif userInput == 3:
             markTaskCompleted(tasks)
         elif userInput == 4:
+            deleteTask(tasks)
+        elif userInput == 5:
             print('GoodBye dear friend')
             keepGoing = False
         else:
                 print('Invalid choice')
 
 """
+NEXT STEPS: 
 
-Run this code: Try running this basic version of your application.
-Experiment: Add the complete task functionality.
-Test: Test your code thoroughly to make sure it works as expected.
-Expand: add the delete task functionality.
+Test: Testing the code thoroughly to make sure it works as expected.
+Ranging To do things by due date
+
 """
 
-def deleteTask():
+def deleteTask(tasks):
     """
     That function will be responsible for deleting a task inside Todos
     """
     print('Hi, that functionality helps to delete tasks')
+    print('Answer only by y(yes) or n(No)')
+    
+    print('')
+
+    array_of_removed = []
+    for i, task in enumerate(tasks):
+
+        print(f' Task {i+1}:  {task['description']}')
+
+        goodAnswer = False
+
+        while not goodAnswer:
+            userInput = input('Would you like to delete that task: ')
+            userInput = str(userInput).lower().strip()
+
+            if userInput == 'y' or userInput == 'n':
+                goodAnswer = True
+
+        if userInput == 'y':
+            array_of_removed.append(tasks[i]['key'])
+           
+            print('Your task is going to be deleted')
+
+    if len(array_of_removed) > 0:
+        for key in array_of_removed:
+            tasks = [task for task in tasks if task.get('key') != key]
+            
+
+    view_tasks(tasks)
 
 menuLoop()
