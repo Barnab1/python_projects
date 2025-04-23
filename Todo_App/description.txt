@@ -1,6 +1,3 @@
-Steps description (made by Gemini)
-
-
 Phase 1: Core Functionality (Command-Line Interface)
 
 Planning and Structure:
