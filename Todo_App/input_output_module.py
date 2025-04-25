@@ -16,7 +16,7 @@ class InputOutputModule:
         Write iformation object to a file
         """
         try:
-            with open(self.filePath, 'w+') as file:
+            with open(self.filePath, 'w') as file:
                 json.dump(informationsObject, file)
                 print(f'{self.informationType} saved to {self.filePath}')
         except Exception as e:

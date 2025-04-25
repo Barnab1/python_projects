@@ -1,24 +1,34 @@
 #coreFunctions.py
+
 from tabulate import tabulate
 from datetime import datetime
 from input_output_module import InputOutputModule
 
 
 class CoreFunctions:
+    """
+    Responsible of App's CRUD opérations
+    """
+
     def __init__(self, filePath):
         self.filePath = filePath
-        
-        self.file = InputOutputModule(self.filePath,'Task')
+        self.file = InputOutputModule(self.filePath, 'Task')
+        self.tasks = self.file.load()  # Load tasks during initialization
+
+    def load_tasks(self): # Optional, but good practice to have a separate load method
+        self.tasks = self.file.load()
+        return self.tasks
+
+    def save_tasks(self): # Add a save_tasks method to update the file
+        self.file.save(self.tasks)
 
     def add_task(self):
         """
-        Responsible for adding task to tasks list
+        Allow user to add task to their Todo list
         """
         print('Hi Dear We are here in Todo App to help you managing well your time.')
         print('')
-        print('Give the following descriptions for your task')
-
-        tasks = file.load(self.filePath)
+        print('Give the following for your task')
 
         taskDescription = input('Task description: ')
         taskDueDate     = input('Task due date: ')
@@ -26,103 +36,86 @@ class CoreFunctions:
         taskstatus ='pending'
 
         task = {}
-
+        
         task['description'] = taskDescription
         task['due date'] = taskDueDate
         task['priority']   = taskPriority
         task['status'] = taskstatus
-        task['key'] = datetime.now()
+        task['key'] = str(datetime.now())
 
-        tasks.append(task)
+        self.tasks.append(task) # Append to the instance's tasks list
         print('Your Task was well added to your Todos')
-
-        file.save(tasks,filePath)
-
-# Step 3: Create the view_tasks() Function
+        self.save_tasks() # Save the updated list
 
     def view_tasks(self):
         """
-            That function is responsible for showing all user tasks
+        Allow user to see their stored tasks
         """
-
-        tasks = InputOutputModule.load(self.filePath)
-
-        if not tasks:
+        if not self.tasks: # Use the instance's tasks list
             print("No tasks found.")
             return
         else:
             print('Tasks'.center(30,'-'))
-            headers = ["#", "Description", "Status", "Priority"]
+            headers = ["#", "Description","Due Date", "Status", "Priority"]
             table_data = []
 
-            for i, task in enumerate(tasks):
-                table_data.append([i + 1, task['description'], task['status'], task['priority']])
+            for i, task in enumerate(self.tasks):
+                table_data.append([i + 1, task['description'], task['due date'],task['status'], task['priority']])
             print(tabulate(table_data, headers=headers, tablefmt="grid"))
-    
-# Step 4: Create the markAsCompleted function
 
     def markTaskCompleted(self):
-
+        """
+        Allow user to mark their task as completed
+        """
         print('Hi Dear, here you can mark task as completed')
+        tasks_to_mark = [task for task in self.tasks if task['status'] != 'completed']
 
-        tasks = InputOutputModule.load(self.filePath)
-        for task in tasks:
-            if task['status'] != 'completed':
-                print('Would you like to mark below task as completed. Answer by y(yes) or n(no)')
-                print('')
-                print(task['description'])
-                print('')
-                userInput = input('answer here: ')
-                userInput = str(userInput).strip().lower()
+        if not tasks_to_mark:
+            print("No pending tasks to mark as completed.")
+            return
 
-                if userInput == "y":
-                    task['status'] = "complete"
-                    InputOutputModule.save(tasks,self.filePath)
-                    print('Your task is marked as completed')
+        for i, task in enumerate(tasks_to_mark):
+            print(f"{i + 1}. {task['description']}")
+            userInput = input('Would you like to mark this task as completed? (y/n): ').strip().lower()
+            if userInput == "y":
+                task['status'] = "complete"
+                print(f"Task '{task['description']}' marked as completed.")
 
+        self.save_tasks()
+        print("\nHere are your tasks with their updated status:")
+        self.view_tasks()
 
-                print("Here are your task with their status")
-                self.view_tasks(tasks)
-            else:
-                print('Your task is already marked as completed')
-
-        
-
-    # Step 5: Making the deleteTask function
-
+    
     def deleteTask(self):
-        """
-        That function will be responsible for deleting a task inside Todos
-        """
-        print('Hi, that functionality helps to delete tasks')
-        print('Answer only by y(yes) or n(No)')
-        
-        print('')
+            """
+            Allows the user to delete a task from the To-Do list by its number.
+            """
+            if not self.tasks:
+                print("No tasks to delete.")
+                return
 
-        tasks = InputOutputModule.load(self.filePath)
-        array_of_removed = []
-        for i, task in enumerate(tasks):
+            print('Hi, that functionality helps to delete tasks')
+            print('Here are your current tasks:')
+            print('')
+            for i, task in enumerate(self.tasks):
+                print(f'{i + 1}. {task["description"]}')
+            print('')
 
-            print(f' Task {i+1}:  {task['description']}')
+            while True:
+                try:
+                    task_number_to_delete = int(input("Enter the number of the task you want to delete (or 0 to cancel): "))
+                    if task_number_to_delete == 0:
+                        print("Deletion cancelled.")
+                        return
+                    elif 1 <= task_number_to_delete <= len(self.tasks):
+                        index_to_delete = task_number_to_delete - 1
+                        deleted_task = self.tasks.pop(index_to_delete)
+                        self.save_tasks()
+                        print(f"Task '{deleted_task['description']}' has been deleted.")
+                        self.view_tasks()  # Show the updated list
+                        break  # Exit the loop after successful deletion
+                    else:
+                        print("Invalid task number. Please enter a number from the list or 0 to cancel.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
 
-            goodAnswer = False
-
-            while not goodAnswer:
-                userInput = input('Would you like to delete that task: ')
-                userInput = str(userInput).lower().strip()
-
-                if userInput == 'y' or userInput == 'n':
-                    goodAnswer = True
-
-            if userInput == 'y':
-                array_of_removed.append(tasks[i]['key'])
-            
-                print('Your task is going to be deleted')
-
-        if len(array_of_removed) > 0:
-            for key in array_of_removed:
-                tasks = [task for task in tasks if task.get('key') != key]
-
-        InputOutputModule.save(tasks, self.filePath)        
-        print('')
-        self.view_tasks(tasks)
