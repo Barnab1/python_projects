@@ -1,19 +1,23 @@
-#coreFunctions.py
+#task_manager.py
 
 from tabulate import tabulate
 from datetime import datetime
-from input_output_module import InputOutputModule
+from data_storage import JsonStorage
 
 
-class CoreFunctions:
+class TaskManager :
     """
-    Responsible of App's CRUD opérations
+    Responsible for managing the core To-do list functionality
+    (CRUD operations)
+
+    This class will use the DataStorage class to handle persistence.
+
+    Will contain most of new feature logic.
     """
 
     def __init__(self, filePath):
-        self.filePath = filePath
-        self.file = InputOutputModule(self.filePath, 'Task')
-        self.tasks = self.file.load()  # Load tasks during initialization
+        self.storage = JsonStorage(filePath, "task")  # Use JsonStorage
+        self.tasks = self.storage.load()
 
     def load_tasks(self): # Optional, but good practice to have a separate load method
         self.tasks = self.file.load()
@@ -21,6 +25,8 @@ class CoreFunctions:
 
     def save_tasks(self): # Add a save_tasks method to update the file
         self.file.save(self.tasks)
+
+
 
     def add_task(self):
         """
@@ -43,9 +49,9 @@ class CoreFunctions:
         task['status'] = taskstatus
         task['key'] = str(datetime.now())
 
-        self.tasks.append(task) # Append to the instance's tasks list
+        self.tasks.append(task)
         print('Your Task was well added to your Todos')
-        self.save_tasks() # Save the updated list
+        self.storage.save(self.tasks)  # Use storage.save()
 
     def view_tasks(self):
         """
@@ -68,6 +74,7 @@ class CoreFunctions:
         Allow user to mark their task as completed
         """
         print('Hi Dear, here you can mark task as completed')
+        
         tasks_to_mark = [task for task in self.tasks if task['status'] != 'completed']
 
         if not tasks_to_mark:
@@ -81,7 +88,8 @@ class CoreFunctions:
                 task['status'] = "complete"
                 print(f"Task '{task['description']}' marked as completed.")
 
-        self.save_tasks()
+        self.storage.save(self.tasks)
+
         print("\nHere are your tasks with their updated status:")
         self.view_tasks()
 
@@ -110,7 +118,7 @@ class CoreFunctions:
                     elif 1 <= task_number_to_delete <= len(self.tasks):
                         index_to_delete = task_number_to_delete - 1
                         deleted_task = self.tasks.pop(index_to_delete)
-                        self.save_tasks()
+                        self.storage.save(self.tasks)
                         print(f"Task '{deleted_task['description']}' has been deleted.")
                         self.view_tasks()  # Show the updated list
                         break  # Exit the loop after successful deletion

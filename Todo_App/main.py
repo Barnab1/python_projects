@@ -1,8 +1,10 @@
-from coreFunctions import CoreFunctions
+#main.py 
+# Main part of the App
+from task_manager import TaskManager
 
 def main():
     keepGoing = True
-    appFunctions = CoreFunctions("tasks.json") # Tasks are loaded on initialization
+    appFunctions = TaskManager("tasks.json") # Tasks are loaded on initialization
 
     while keepGoing:
         print("Welcome to your Todo App")
