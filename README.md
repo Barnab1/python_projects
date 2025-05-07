@@ -11,3 +11,4 @@ Contributions are welcome here, mainly when they come from beginner as I made th
 # PROJECTS
  - <i>bankApp</i> project : a banking app with basic functionality
  - <i>findMutualFriend</i> project : a simple project to make friend based on constraints
+ - <i>Todo App</i> project: a simple project designed to help managin tasks
