@@ -1,0 +1,6 @@
+Basic Calculator:
+
+Goal: Create a calculator that can perform basic arithmetic operations (+, -, *, /).
+Skills: Functions, user input, error handling (e.g., division by zero).
+Progression: Expand to handle more complex operations (exponents, roots, trigonometric functions) or create a GUI with buttons.
+
