@@ -1,0 +1,4 @@
+
+Goal: Generate a random number and let the user guess it.
+Skills: Random number generation, loops, conditional statements, user input.
+Progression: Add features like limiting the number of guesses, providing hints, or keeping track of scores
